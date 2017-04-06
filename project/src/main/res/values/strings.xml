@@ -18,6 +18,11 @@
     <string name="menu7">Casualities</string>
     <string name="menu8">Witnesses</string>
 
+
+    <string name="take_picture">To take a picture of the accident</string>
+    <string name="load_map">To load a map of your location</string>
+    <string name="click_here">CLICK HERE</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -19,16 +19,20 @@
 
     <Button
         android:id="@+id/button"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/click_here" />
 
     <TextView
+        android:layout_marginTop="10dp"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="TextView"
-        android:textSize="20dp" />
+        android:textStyle="bold"
+        android:text="@string/load_map"
+        android:textSize="30dp" />
 </LinearLayout>

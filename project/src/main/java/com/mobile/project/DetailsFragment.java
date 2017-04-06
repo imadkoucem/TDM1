@@ -40,12 +40,12 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
         menu_name = new ArrayList<String>();
 
         menu_icon.add(R.drawable.date_time);
-        menu_icon.add(R.drawable.date_time);
+        menu_icon.add(R.drawable.third_party);
         menu_icon.add(R.drawable.vehicule);
         menu_icon.add(R.drawable.insurance_icon);
         menu_icon.add(R.drawable.police);
-        menu_icon.add(R.drawable.date_time);
-        menu_icon.add(R.drawable.date_time);
+        menu_icon.add(R.drawable.description);
+        menu_icon.add(R.drawable.casuality);
         menu_icon.add(R.drawable.witnesses);
 
         menu_name.add(getString(R.string.menu1));

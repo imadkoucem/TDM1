@@ -24,12 +24,21 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
 
+    private DetailsFragment detailsFragment;
+    private LocationFragment locationFragment;
+    private PicturesFragment picturesFragment;
+    private DamageFragment damageFragment;
     private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        detailsFragment = new DetailsFragment();
+        locationFragment = new LocationFragment();
+        picturesFragment = new PicturesFragment();
+        damageFragment = new DamageFragment();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -127,10 +136,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position){
-                case 0: return new DetailsFragment();
-                case 1: return new LocationFragment();
-                case 2: return new PicturesFragment();
-                case 3: return new DamageFragment();
+                case 0: return detailsFragment;
+                case 1: return locationFragment;
+                case 2: return picturesFragment;
+                case 3: return damageFragment;
             }
             return null;
         }
