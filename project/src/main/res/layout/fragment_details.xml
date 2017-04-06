@@ -1,0 +1,110 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mobile.project.DetailsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/gridView"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView"
+        android:numColumns="2"/>
+
+    <!--
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/police"
+                android:text="Button" />
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/button8"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/button7"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Button" />
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Button" />
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/button6"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Button" />
+        </TableRow>
+    </TableLayout>
+    -->
+</FrameLayout>
