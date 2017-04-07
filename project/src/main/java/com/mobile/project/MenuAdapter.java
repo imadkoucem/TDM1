@@ -36,6 +36,7 @@ class MenuAdapter extends BaseAdapter{
         color_array.add(R.color.colorPrimary);
         color_array.add(R.color.colorPrimary);
         color_array.add(R.color.colorPrimary);
+        color_array.add(R.color.colorPrimary);
     }
     @Override
     public int getCount() {

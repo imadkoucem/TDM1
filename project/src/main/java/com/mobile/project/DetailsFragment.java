@@ -1,10 +1,9 @@
 package com.mobile.project;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,12 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
 
     ArrayList menu_icon;
     ArrayList menu_name;
+    AlertDialog.Builder builder;
+
     public DetailsFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -47,6 +49,7 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
         menu_icon.add(R.drawable.description);
         menu_icon.add(R.drawable.casuality);
         menu_icon.add(R.drawable.witnesses);
+        menu_icon.add(R.drawable.exit);
 
         menu_name.add(getString(R.string.menu1));
         menu_name.add(getString(R.string.menu2));
@@ -56,6 +59,7 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
         menu_name.add(getString(R.string.menu6));
         menu_name.add(getString(R.string.menu7));
         menu_name.add(getString(R.string.menu8));
+        menu_name.add(getString(R.string.menu9));
 
         //AppCompatActivity context = (AppCompatActivity)getActivity().getApplicationContext();
         GridView gridview = (GridView)view.findViewById(R.id.gridView);
@@ -63,12 +67,154 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
         gridview.setAdapter(adapter);
         gridview.setOnItemClickListener(this);
 
+        builder = new AlertDialog.Builder(view.getContext());
+
         // Inflate the layout for this fragment
         return view;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (i){
+            case 0 : showDateTime(); break;
+            case 1 : showThirdParty(); break;
+            case 2 : showVehicule(); break;
+            case 3 : showInsurance(); break;
+            case 4 : showPolice(); break;
+            case 5 : showDescription(); break;
+            case 6 : showCasuality(); break;
+            case 7 : showWitness(); break;
+            case 8 : break;
+        }
 
+    }
+
+    private void showDateTime() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_third_party, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
+    }
+    private void showThirdParty() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_third_party, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
+    }
+    private void showVehicule() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_vehicle, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
+    }
+    private void showInsurance() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_insurance, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
+    }
+    private void showPolice() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_police, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
+    }
+    private void showDescription() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_description, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
+    }
+    private void showCasuality() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_casualty, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
+    }
+    private void showWitness() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dview = inflater.inflate(R.layout.dialog_witness, null);
+        //final TextView student_name = (TextView) dview.findViewById(  R.id.dialog_mark_student_name );
+
+        builder.setView(dview)
+                // Add action buttons
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+        builder.show();
     }
 }
