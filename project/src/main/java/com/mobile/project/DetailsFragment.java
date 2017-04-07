@@ -84,7 +84,7 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
             case 5 : showDescription(); break;
             case 6 : showCasuality(); break;
             case 7 : showWitness(); break;
-            case 8 : break;
+            case 8 : getActivity().finish(); break;
         }
 
     }
