@@ -1,1 +1,1 @@
-include ':app', ':project'
+include ':project'
