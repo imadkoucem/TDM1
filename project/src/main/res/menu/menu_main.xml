@@ -3,8 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.mobile.project.MainActivity">
+
+
+
     <item
         android:id="@+id/action_save"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/save"
+        android:title="save report"/>
+    <item
+        android:id="@+id/action_visualize"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:icon="@drawable/visualize_icon"
@@ -36,7 +45,20 @@
                 android:id="@+id/action_language"
                 android:orderInCategory="100"
                 android:icon="@drawable/language"
-                android:title="Language"/>
+                android:title="Language">
+                <menu>
+                    <item
+                        android:id="@+id/action_english"
+                        android:orderInCategory="100"
+                        android:icon="@drawable/language"
+                        android:title="English"/>
+                    <item
+                        android:id="@+id/action_frensh"
+                        android:orderInCategory="100"
+                        android:icon="@drawable/language"
+                        android:title="Frensh"/>
+                </menu>
+            </item>
 
             <item
                 android:id="@+id/action_about"

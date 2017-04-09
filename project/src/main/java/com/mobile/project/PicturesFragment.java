@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class PicturesFragment extends Fragment {
@@ -46,33 +47,18 @@ public class PicturesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pictures, container, false);
         imageView = (ImageView)view.findViewById(R.id.picture);
 
-        dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-        File newdir = new File(dir);
-        newdir.mkdirs();
-
         Button button = (Button)view.findViewById(R.id.btn_picture);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count++;
-                file = dir+count+".jpg";
-                File newfile = new File(file);
-                try {
-                    newfile.createNewFile();
-                }
-                catch (IOException e)
-                {
-                }
 
-                Uri outputFileUri = Uri.fromFile(newfile);
-
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                startActivityForResult(intent, CAMERA_REQUEST);
+                startActivityForResult(intent, CAMERA_REQUEST);*/
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
-
-
 
         return view;
     }
@@ -82,22 +68,27 @@ public class PicturesFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         // In fragment class callback
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            //Bitmap photo = (Bitmap) data.getExtras().get("data");
-            //imageView.setImageBitmap(photo);
-            /*try {
-                Bitmap mImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(file));
-                imageView.setImageBitmap(mImageBitmap);
-            } catch (IOException e) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(photo);
+
+
+            /*String fname = "Image-"+ 1 +".jpg";
+            File file = new File (MainActivity.dirFile,fname);
+            if (file.exists ()) file.delete ();
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                out.flush();
+                out.close();
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }*/
-            //Toast.makeText(getC,"jjjjjjjjj",Toast.LENGTH_LONG).show();
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+
+
 
     @Override
     public void onDetach() {

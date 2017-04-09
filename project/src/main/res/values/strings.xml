@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Project</string>
+
+
+    <string name="app_name">Accident report</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
@@ -22,6 +24,7 @@
 
     <string name="take_picture">to take a picture of the accident</string>
     <string name="load_map">to load a map of your location</string>
+    <string name="draw_damage">to draw a vehicule damage sketch</string>
     <string name="click_here">CLICK HERE</string>
 
 
@@ -76,8 +79,17 @@
     <string name="dialog_witness_phone">Phone number</string>
     <string name="dialog_witness_age">Age</string>
 
+    <!-- dialog file name -->
+    <string name="dialog_file_name_title">Name for file</string>
+    <string name="dialog_file_name_text">File name</string>
+
+    <!-- Damage activity -->
+    <string name="damage_activity_text">Select type</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save">Save</string>
+    <string name="saving">Saving...</string>
+    <string name="saved">Saved !</string>
 
 </resources>

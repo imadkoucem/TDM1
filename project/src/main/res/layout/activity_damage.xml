@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mobile.project.DamageFragment"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/myblue"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/damage_activity_text"
+                android:textColor="@color/button_text_color" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:srcCompat="@drawable/car_icon" />
+
+
+        <Button
+            android:id="@+id/btn_save1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="clickSave1"
+            android:text="@string/save" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/myblue"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/damage_activity_text"
+                android:textColor="@color/button_text_color" />
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:srcCompat="@drawable/motorcycle_icon" />
+
+        <Button
+            android:id="@+id/btn_save2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="clickSave2"
+            android:text="@string/save" />
+
+    </LinearLayout>
+</ScrollView>
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="section1">Détailles</string>
+    <string name="section2">Position</string>
+    <string name="section3">Images</string>
+    <string name="section4">Damage</string>
+
+</resources>
