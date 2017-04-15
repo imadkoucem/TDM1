@@ -22,18 +22,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import model.Data;
+
 public class PicturesFragment extends Fragment {
 
     int CAMERA_REQUEST = 1888;
-    public static int count = 0;
-    String dir="";
-    String file="";
     ImageView imageView;
 
 
-    public PicturesFragment() {
-        // Required empty public constructor
-    }
+    public PicturesFragment() {   }
 
 
     @Override
@@ -52,9 +49,6 @@ public class PicturesFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                startActivityForResult(intent, CAMERA_REQUEST);*/
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
@@ -70,20 +64,8 @@ public class PicturesFragment extends Fragment {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
+            Data.capture = photo;
 
-
-            /*String fname = "Image-"+ 1 +".jpg";
-            File file = new File (MainActivity.dirFile,fname);
-            if (file.exists ()) file.delete ();
-            try {
-                FileOutputStream out = new FileOutputStream(file);
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                out.flush();
-                out.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
         }
     }
 

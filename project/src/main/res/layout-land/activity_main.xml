@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main_content"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fitsSystemWindows="true" tools:context="com.mobile.project.MainActivity">
+
+
+    <!--
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme">
+
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <!--
+
+    <com.sa90.materialarcmenu.ArcMenu
+        android:id="@+id/arcMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:menu_color="@color/myblue"
+        android:layout_gravity="bottom|end"
+        app:menu_scr="@drawable/call"
+        app:menu_open="arc_left">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:src="@drawable/call_police"
+            app:fab_colorNormal="@color/myblue"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:src="@drawable/call_gen"
+            app:fab_colorNormal="@color/myblue"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:src="@drawable/police"
+            app:fab_colorNormal="@color/myblue"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:src="@drawable/police"
+            app:fab_colorNormal="@color/myblue"
+            android:layout_height="wrap_content" />
+
+    </com.sa90.materialarcmenu.ArcMenu>
+    -->
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        app:tabBackground="@color/myblue"
+        app:tabGravity="fill"
+        app:tabSelectedTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+</LinearLayout>

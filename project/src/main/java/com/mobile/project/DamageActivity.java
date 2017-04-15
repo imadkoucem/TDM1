@@ -7,110 +7,141 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import model.Data;
+
 
 public class DamageActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    ImageView imageView ;
-    ImageView imageView2 ;
+    ImageView imageView,imageView2 ;
 
-    private Point point ;
+    Switch switch1, switch2;
 
-    private DrawingCrl imgCircle = new DrawingCrl();
-    private Bitmap mutableBitmap;
+    Spinner spinner,spinner2;
+
+    private List<Point> listPoints = new ArrayList<>();
+    private List<Point> listPoints2 = new ArrayList<>();
+
+    Bitmap mutableBitmap1,mutableBitmap2;
+
+    private int[] images = {R.drawable.car_icon,R.drawable.motorcycle_200};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_damage);
 
-        Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        final String[] choices = getResources().getStringArray(R.array.spinner);
-        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, choices);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        Spinner spinner2 = (Spinner)findViewById(R.id.spinner2);
-        spinner2.setAdapter(adapter);
+        switch1 = (Switch)  findViewById(R.id.switch1);
+        switch2 = (Switch)  findViewById(R.id.switch2);
 
         imageView = (ImageView)findViewById(R.id.imageView1);
         imageView.setOnTouchListener(this);
+
         imageView2 = (ImageView)findViewById(R.id.imageView2);
+        imageView2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (!switch2.isChecked()) return true;
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+
+                    listPoints2.add(new Point( motionEvent.getX()-view.getLeft(),
+                            motionEvent.getY()-view.getTop()) );
+                    DrawCross(view.getId(),images[spinner2.getSelectedItemPosition()]);
+                }
+
+                return true;
+            }
+        });
+
+
+        spinner = (Spinner)findViewById(R.id.spinner);
+        final String[] choices = getResources().getStringArray(R.array.spinner);
+        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, choices);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                imageView.setImageResource(images[i]);
+                listPoints.clear();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        spinner2 = (Spinner)findViewById(R.id.spinner2);
+        spinner2.setAdapter(adapter);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                imageView2.setImageResource(images[i]);
+                listPoints2.clear();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
     }
 
     public void clickSave1(View v){
-        /*Document doc = new Document();
-        String outPath = MainActivity.dirFile + MainActivity.fileName + ".pdf";
-        try {
-            PdfWriter.getInstance(doc,new FileOutputStream(outPath));
-            doc.open();
-            doc.addTitle("Image: ");
-            doc.add(imageView)
-            String path = “res/drawable/myImage.png”
-            Image image = Image.getInstance(path);
-            document.add(image);
-            doc.close();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-            Log.i("MainActivity",e.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Log.i("MainActivity",e.toString());
-        }*/
+        Data.image1 = mutableBitmap1;
+        new SweetAlertDialog(this,SweetAlertDialog.SUCCESS_TYPE)
+        .setTitleText(getString(R.string.saved))
+                .show();
     }
-
     public void clickSave2(View v){
-
+        Data.image2 = mutableBitmap2;
+        new SweetAlertDialog(this,SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(getString(R.string.saved))
+                .show();
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        point = new Point();
-        point.x = Float.valueOf(motionEvent.getX());
-        point.y = Float.valueOf(motionEvent.getY());
-        imgCircle.DrawCircle(point);
+        if (!switch1.isChecked()) return true;
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+
+            listPoints.add(new Point( motionEvent.getX()-view.getLeft(),
+                    motionEvent.getY()-view.getTop()) );
+            DrawCross(view.getId(), images[spinner.getSelectedItemPosition()]);
+        }
         return true;
     }
 
     public class Point {
         float x;
         float y;
+        public Point(float x, float y) { this.x = x; this.y = y; }
     }
 
-    private class DrawingCrl {
-        private Paint paint;
-        private Canvas canvas ;
 
-        public void DrawCircle(Point point) {
-            //mBitmap = Bitmap.createBitmap(400, 800, Bitmap.Config.ARGB_8888);
-            /*canvas = new Canvas();
-            paint = new Paint();
-            paint.setColor(Color.BLUE);
-            paint.setStyle(Paint.Style.FILL);
-            canvas.drawCircle(point.x, point.y, 25, paint);*/
+        public void DrawCross(int id, int imageSrcId) {
+
             BitmapFactory.Options myOptions = new BitmapFactory.Options();
             myOptions.inDither = true;
             myOptions.inScaled = false;
             myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
             myOptions.inPurgeable = true;
 
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.car_icon,myOptions);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imageSrcId, myOptions);
             Paint paint = new Paint();
             paint.setAntiAlias(true);
             paint.setColor(Color.BLUE);
@@ -118,15 +149,24 @@ public class DamageActivity extends AppCompatActivity implements View.OnTouchLis
 
 
             Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
-            mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
 
-            Canvas canvas = new Canvas(mutableBitmap);
-            canvas.drawCircle(point.x-70, point.y, 50, paint);
 
-            ImageView imageView = (ImageView)findViewById(R.id.imageView1);
-            imageView.setAdjustViewBounds(true);
-            imageView.setImageBitmap(mutableBitmap);
+            if(id == imageView.getId()){
+                mutableBitmap1 = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                Canvas canvas = new Canvas(mutableBitmap1);
+                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.cross);
+                for(Point p:listPoints) canvas.drawBitmap(b,p.x,p.y,paint);
+                imageView.setAdjustViewBounds(true);
+                imageView.setImageBitmap(mutableBitmap1);
+            }
+            else {
+                mutableBitmap2 = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                Canvas canvas = new Canvas(mutableBitmap2);
+                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.cross);
+                for(Point p:listPoints2) canvas.drawBitmap(b,p.x,p.y,paint);
+                imageView2.setAdjustViewBounds(true);
+                imageView2.setImageBitmap(mutableBitmap2);
+            }
         }
-    }
 }

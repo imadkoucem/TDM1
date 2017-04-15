@@ -6,10 +6,10 @@
     android:padding="5dp">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
         android:id="@+id/imageLogo"
-        android:src="@drawable/police"/>
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:src="@drawable/police" />
 
     <TextView
         android:layout_width="match_parent"

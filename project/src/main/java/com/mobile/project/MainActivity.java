@@ -6,10 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,20 +32,42 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.ChapterAutoNumber;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Header;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import model.Casualty;
+import model.Data;
+import model.Insurance;
+import model.Police;
+import model.ThirdParty;
+import model.Vehicule;
+import model.Witness;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,18 +80,18 @@ public class MainActivity extends AppCompatActivity {
     private DamageFragment damageFragment;
     private ViewPager mViewPager;
 
-    public static String dirFile;
-    public static String APPLICATION_PACKAGE_NAME ;
-    public static String fileName = "";
+    //public static String dirFile;
+    //public static String APPLICATION_PACKAGE_NAME ;
+    //public static String fileName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        APPLICATION_PACKAGE_NAME = this.getBaseContext().getPackageName();
-        dirFile = Environment.getExternalStorageDirectory()+"/"+APPLICATION_PACKAGE_NAME+"/";
-        File path = new File( dirFile );
+        Data.APPLICATION_PACKAGE_NAME = this.getBaseContext().getPackageName();
+        Data.dirFile = Environment.getExternalStorageDirectory()+"/"+Data.APPLICATION_PACKAGE_NAME+"/";
+        File path = new File( Data.dirFile );
         if ( !path.exists() ){ path.mkdir(); }
 
 
@@ -100,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
+
+
+
     }
 
 
@@ -116,20 +145,31 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id){
 
+            case R.id.action_new_file:
+                showFileNamePopUp();
+                break;
+
+            case R.id.action_reset:
+                reset();
+                break;
+
             case R.id.action_save:
-                if(fileName.equals("")) showFileNamePopUp();
+                if(Data.fileName.equals("")) showFileNamePopUp();
                 else new myTask().execute();
                 break;
 
             case R.id.action_visualize:
-                if(fileName.equals("")){
+                if(!Data.isFileSaved){
                     showMessage("Save document first !");
                 }
                 else displaypdf();
                 break;
 
             case R.id.action_send:
-                showMessage("imadddddddddddddd");
+                if(!Data.isFileSaved){
+                    showMessage("Save document first !");
+                }
+                else sendemail(Data.fileName);
                 break;
 
             case R.id.action_tell_friend:
@@ -141,11 +181,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_history:
                 startActivity(new Intent(this,HistoryActivity.class));
                 break;
-            case R.id.action_language:
 
-                break;
             case R.id.action_about:
-
+                new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("TDM1 !")
+                        .setContentText("KOUCEM Imad\nABADA Abderahman")
+                        .setCustomImage(R.drawable.custom_img)
+                        .show();
                 break;
 
             case R.id.action_english:
@@ -161,6 +203,55 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void reset() {
+        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Are you sure?")
+                .setContentText("Won't be able to recover saved data !")
+                .setCancelText("No,cancel plx!")
+                .setConfirmText("Yes,delete it!")
+                .showCancelButton(true)
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        // reuse previous dialog instance, keep widget user state, reset them if you need
+                        sDialog.setTitleText("Cancelled!")
+                                .setContentText("Your data is safe :)")
+                                .setConfirmText("OK")
+                                .showCancelButton(false)
+                                .setCancelClickListener(null)
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+                    }
+                })
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        Data.isFileSaved = false;
+                        Data.fileName = "";
+                        Data.dateTime = "";
+                        Data.thirdParty = null;
+                        Data.listVehicule = new ArrayList<>();
+                        Data.insurance = null;
+                        Data.police = null;
+                        Data.desciption = "";
+                        Data.listCasualties = new ArrayList<>();
+                        Data.listWitnesses = new ArrayList<>();
+                        Data.capture = null;
+                        Data.image1 = null;
+                        Data.image2 = null;
+                        sDialog.setTitleText("Deleted!")
+                                .setContentText("Your data has been deleted!")
+                                .setConfirmText("OK")
+                                .showCancelButton(false)
+                                .setCancelClickListener(null)
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                    }
+                })
+                .show();
+    }
+
     private void showFileNamePopUp(){
         LayoutInflater inflater = this.getLayoutInflater();
         View dview = inflater.inflate(R.layout.dialog_file_name, null);
@@ -173,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if(!file_name.getText().toString().equals(""))
-                            fileName = file_name.getText().toString();
+                            Data.fileName = file_name.getText().toString();
                     }
                 });
         builder.setCancelable(false);
@@ -182,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void displaypdf() {
 
-        File file =  new File(dirFile+ fileName+ ".pdf");
+        File file =  new File(Data.dirFile+ Data.fileName+ ".pdf");
         if(file.exists()) {
             Intent target = new Intent(Intent.ACTION_VIEW);
             target.setDataAndType(Uri.fromFile(file), "application/pdf");
@@ -201,26 +292,73 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createPDF()  {
+        File path = new File( Data.dirFile );
+        if ( !path.exists() ){ path.mkdir(); }
         Document doc = new Document();
-        String outPath = dirFile + fileName + ".pdf";
+        String outPath = Data.dirFile + Data.fileName + ".pdf";
         try {
             PdfWriter.getInstance(doc,new FileOutputStream(outPath));
             doc.open();
-            doc.add(new Paragraph("Helle World !"));
+            if (!Data.dateTime.equals("")) doc.add(new Paragraph(Data.dateTime));
+            if (!Data.location.equals("")) doc.add(new Paragraph(Data.location));
+            if (!Data.desciption.equals("")) doc.add(new Paragraph(Data.desciption));
+            doc.add(new Paragraph(""));
+            for (Casualty c :Data.listCasualties) doc.add(new Paragraph(c.toString()));
+
+            for (Witness c :Data.listWitnesses) doc.add(new Paragraph(c.toString()));
+
+            for (Vehicule c :Data.listVehicule) doc.add(new Paragraph(c.toString()));
+
+            if (Data.thirdParty !=null) doc.add(new Paragraph(Data.thirdParty.toString()));
+
+            if (Data.police !=null) doc.add(new Paragraph(Data.police.toString()));
+
+            if (Data.insurance !=null) doc.add(new Paragraph(Data.insurance.toString()));
+
+            if(Data.capture != null) { doc.add(new LineSeparator()); addImageToDoc( doc, Data.capture); }
+
+            if(Data.image1 != null) { doc.add(new LineSeparator()); addImageToDoc( doc, Data.image1); }
+
+            if(Data.image2 != null) { doc.add(new LineSeparator()); addImageToDoc( doc, Data.image2); }
+
             doc.close();
-        } catch (DocumentException e) {
+        } catch (Exception e) {  e.printStackTrace();  }
+
+    }
+
+    private void addImageToDoc(Document doc, Bitmap bm) {
+        Bitmap resized = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        // Create new bitmap based on the size and config of the old
+        Bitmap newBitmap = Bitmap.createBitmap(resized.getWidth(), resized.getHeight(), resized.getConfig());
+
+// Instantiate a canvas and prepare it to paint to the new bitmap
+        Canvas canvas = new Canvas(newBitmap);
+
+// Paint it white (or whatever color you want)
+        canvas.drawColor(Color.WHITE);
+
+// Draw the old bitmap ontop of the new white one
+        canvas.drawBitmap(resized, 0, 0, null);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        newBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , stream);
+        Image myImg = null;
+        try {
+            myImg = Image.getInstance(stream.toByteArray());
+            myImg.setAlignment(Image.MIDDLE| Image.TEXTWRAP);
+            doc.add(myImg);
+
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.i("MainActivity",e.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Log.i("MainActivity",e.toString());
+            Toast.makeText(this,"no image !!!",Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void showMessage(String msg){
-        new SweetAlertDialog(this)
-                .setTitleText(msg)
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(msg)
                 .show();
     }
 
@@ -259,14 +397,14 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             //display ProgressDialog
             pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE)
-                    .setTitleText(getString(R.string.saving));
-
+                  .setTitleText(getString(R.string.saving));
             pDialog.show();
         }
         @Override
         protected String doInBackground(String... params) {
 
             createPDF();
+            Data.isFileSaved = true;
             return "";
         }
 
@@ -274,11 +412,9 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             pDialog.setTitleText(getString(R.string.saved))
                     .setConfirmText("OK")
-                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                  .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
         }
     }
-
-
 
     /**
      * A placeholder fragment containing a simple view.

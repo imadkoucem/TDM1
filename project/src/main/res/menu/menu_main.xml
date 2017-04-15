@@ -32,6 +32,16 @@
         android:title="settings">
         <menu>
             <item
+                android:id="@+id/action_new_file"
+                android:orderInCategory="100"
+                android:icon="@drawable/new_file"
+                android:title="New file"/>
+            <item
+                android:id="@+id/action_reset"
+                android:orderInCategory="100"
+                android:icon="@drawable/reset"
+                android:title="Reset"/>
+            <item
                 android:id="@+id/action_tell_friend"
                 android:orderInCategory="100"
                 android:icon="@drawable/tell_friend"

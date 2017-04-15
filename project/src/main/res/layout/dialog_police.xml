@@ -1,84 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dialog_police_title"
-        android:background="@color/myblue"
-        android:textColor="#ffffff"
-        android:padding="10dp"
-        android:gravity="center" />
+    android:layout_height="match_parent">
 
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp">
-
-        <android.support.design.widget.TextInputLayout
+        android:orientation="vertical">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/colorPrimaryDark">
-            <EditText
-                android:id="@+id/dialog_police_event_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/dialog_police_event_number"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="?attr/actionModeSplitBackground"
-                android:textColorHint="@color/colorPrimaryDark" />
-        </android.support.design.widget.TextInputLayout>
+            android:text="@string/dialog_police_title"
+            android:background="@color/myblue"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:gravity="center" />
 
-        <android.support.design.widget.TextInputLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorPrimaryDark">
-            <EditText
-                android:id="@+id/dialog_police_case_number"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/dialog_police_case_number"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="?attr/actionModeSplitBackground"
-                android:textColorHint="@color/colorPrimaryDark" />
-        </android.support.design.widget.TextInputLayout>
+                android:textColorHint="@color/colorPrimaryDark">
+                <EditText
+                    android:id="@+id/dialog_police_event_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dialog_police_event_number"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorPrimaryDark">
-            <EditText
-                android:id="@+id/dialog_police_unit_number"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/dialog_police_unit_number"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="?attr/actionModeSplitBackground"
-                android:textColorHint="@color/colorPrimaryDark" />
-        </android.support.design.widget.TextInputLayout>
+                android:textColorHint="@color/colorPrimaryDark">
+                <EditText
+                    android:id="@+id/dialog_police_case_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dialog_police_case_number"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorPrimaryDark">
-            <EditText
-                android:id="@+id/dialog_police_station_number"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/dialog_police_station_number"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="?attr/actionModeSplitBackground"
-                android:textColorHint="@color/colorPrimaryDark" />
-        </android.support.design.widget.TextInputLayout>
+                android:textColorHint="@color/colorPrimaryDark">
+                <EditText
+                    android:id="@+id/dialog_police_unit_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dialog_police_unit_number"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimaryDark">
+                <EditText
+                    android:id="@+id/dialog_police_station_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dialog_police_station_number"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
 
 
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+</ScrollView>
+

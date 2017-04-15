@@ -11,11 +11,10 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-
     <ImageView
         android:id="@+id/picture"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         android:src="@drawable/pictures" />
 
     <Button
@@ -26,14 +25,14 @@
         android:textColor="@color/colorPrimary" />
 
     <TextView
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
         android:text="@string/take_picture"
-        android:textSize="30dp" />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
 </LinearLayout>

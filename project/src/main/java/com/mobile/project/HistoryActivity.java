@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import model.Data;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -36,16 +37,20 @@ public class HistoryActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.list_view);
 
-        File directory = new File(MainActivity.dirFile);
+        populateListFiles();
+
+        adapter = new DocumentsAdapter(HistoryActivity.this,list);
+        listView.setAdapter(adapter);
+
+    }
+
+    private void populateListFiles() {
+        File directory = new File(Data.dirFile);
         File[] files = directory.listFiles();
         for (File tmpf : files){
             //Do something with the files
             list.add(new MyDocument(tmpf.getName(),new Date(tmpf.lastModified()).toString(),tmpf.getAbsolutePath() ));
         }
-
-        adapter = new DocumentsAdapter(HistoryActivity.this,list);
-        listView.setAdapter(adapter);
-
     }
 
     public void longClick(final int i){
@@ -59,6 +64,7 @@ public class HistoryActivity extends AppCompatActivity {
                             case 0:
                                 displaypdf(list.get(i).getPath());
                                 break;
+
                             case 1:
                                 sendemail(list.get(i).getPath());
                                 break;

@@ -15,6 +15,15 @@ package com.mobile.project;
 public class DocumentsAdapter extends BaseAdapter {
 
     List<MyDocument> list;
+
+    public List<MyDocument> getList() {
+        return list;
+    }
+
+    public void setList(List<MyDocument> list) {
+        this.list = list;
+    }
+
     Context context;
     private  static LayoutInflater inflater= null;
 
