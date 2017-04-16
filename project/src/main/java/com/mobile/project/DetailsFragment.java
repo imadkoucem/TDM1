@@ -71,7 +71,7 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
         menu_icon.add(R.drawable.description);
         menu_icon.add(R.drawable.casuality);
         menu_icon.add(R.drawable.witnesses);
-        menu_icon.add(R.drawable.exit);
+        menu_icon.add(R.drawable.exit_icon);
 
         menu_name.add(getString(R.string.menu1));
         menu_name.add(getString(R.string.menu2));

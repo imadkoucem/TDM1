@@ -34,7 +34,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-    <!--
+
 
     <com.sa90.materialarcmenu.ArcMenu
         android:id="@+id/arcMenu"
@@ -42,36 +42,32 @@
         android:layout_height="wrap_content"
         app:menu_color="@color/myblue"
         android:layout_gravity="bottom|end"
-        app:menu_scr="@drawable/call"
+        app:menu_scr="@drawable/list"
         app:menu_open="arc_left">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab1"
             android:layout_width="wrap_content"
-            android:src="@drawable/call_police"
-            app:fab_colorNormal="@color/myblue"
+            android:src="@drawable/list"
             android:layout_height="wrap_content" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
-            android:src="@drawable/call_gen"
-            app:fab_colorNormal="@color/myblue"
-            android:layout_height="wrap_content" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:src="@drawable/police"
-            app:fab_colorNormal="@color/myblue"
+            android:src="@drawable/list"
             android:layout_height="wrap_content" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:src="@drawable/police"
-            app:fab_colorNormal="@color/myblue"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:src="@drawable/police"
             android:layout_height="wrap_content" />
 
     </com.sa90.materialarcmenu.ArcMenu>
-    -->
+
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"

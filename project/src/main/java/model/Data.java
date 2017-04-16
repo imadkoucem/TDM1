@@ -31,9 +31,7 @@ public class Data {
 
     public static Bitmap capture = null;
 
-    public static Bitmap image1 = null;
-
-    public static Bitmap image2 = null;
+    public static List<Bitmap> image = new ArrayList<>();
 
     public static boolean isFileSaved = false;
 }

@@ -4,7 +4,9 @@
 
     <array name="spinner">
         <item>Vehicule</item>
-        <item>Moto</item>
+        <item>Motorcycle</item>
+        <item>Truck</item>
+        <item>Bus</item>
     </array>
 
     <array name="array">

@@ -28,7 +28,7 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/list"
+        android:icon="@drawable/list2"
         android:title="settings">
         <menu>
             <item

@@ -154,7 +154,27 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.action_save:
-                if(Data.fileName.equals("")) showFileNamePopUp();
+                if(Data.fileName.equals("")) {
+                    LayoutInflater inflater = this.getLayoutInflater();
+                    View dview = inflater.inflate(R.layout.dialog_file_name, null);
+                    final TextView file_name = (TextView) dview.findViewById(  R.id.dialog_file_name_text );
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setView(dview)
+                            // Add action buttons
+                            .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    if(!file_name.getText().toString().equals("")){
+                                        Data.fileName = file_name.getText().toString();
+                                        createPDF();
+                                        Data.isFileSaved = true;
+                                    }
+                                }
+                            });
+                    builder.setCancelable(false);
+                    builder.show();
+                }
                 else new myTask().execute();
                 break;
 
@@ -238,8 +258,7 @@ public class MainActivity extends AppCompatActivity {
                         Data.listCasualties = new ArrayList<>();
                         Data.listWitnesses = new ArrayList<>();
                         Data.capture = null;
-                        Data.image1 = null;
-                        Data.image2 = null;
+                        Data.image = new ArrayList<>();
                         sDialog.setTitleText("Deleted!")
                                 .setContentText("Your data has been deleted!")
                                 .setConfirmText("OK")
@@ -315,11 +334,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (Data.insurance !=null) doc.add(new Paragraph(Data.insurance.toString()));
 
-            if(Data.capture != null) { doc.add(new LineSeparator()); addImageToDoc( doc, Data.capture); }
+            if(Data.capture != null) { addImageToDoc( doc, Data.capture); }
 
-            if(Data.image1 != null) { doc.add(new LineSeparator()); addImageToDoc( doc, Data.image1); }
-
-            if(Data.image2 != null) { doc.add(new LineSeparator()); addImageToDoc( doc, Data.image2); }
+            for (Bitmap b :Data.image) addImageToDoc( doc, b);
 
             doc.close();
         } catch (Exception e) {  e.printStackTrace();  }

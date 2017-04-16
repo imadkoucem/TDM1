@@ -57,11 +57,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/colorPrimaryDark">
+
                 <EditText
                     android:id="@+id/dialog_witness_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/dialog_witness_phone"
+                    android:inputType="phone"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="?attr/actionModeSplitBackground"
@@ -72,11 +74,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/colorPrimaryDark">
+
                 <EditText
                     android:id="@+id/dialog_witness_age"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/dialog_witness_age"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="?attr/actionModeSplitBackground"
