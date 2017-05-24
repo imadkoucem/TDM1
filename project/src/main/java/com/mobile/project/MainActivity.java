@@ -36,6 +36,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Chapter;
 import com.itextpdf.text.ChapterAutoNumber;
@@ -63,6 +68,7 @@ import java.util.Locale;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import model.Casualty;
 import model.Data;
+import model.Folder;
 import model.Insurance;
 import model.Police;
 import model.ThirdParty;
@@ -78,7 +84,13 @@ public class MainActivity extends AppCompatActivity {
     private LocationFragment locationFragment;
     private PicturesFragment picturesFragment;
     private DamageFragment damageFragment;
+    private Fragment3 fragment3;
     private ViewPager mViewPager;
+    //AdView mAdView;
+
+
+    private DatabaseReference databaseReference ;
+    private FirebaseDatabase mFirebaseInstance;
 
     //public static String dirFile;
     //public static String APPLICATION_PACKAGE_NAME ;
@@ -88,6 +100,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseInstance.setPersistenceEnabled(true);
+        databaseReference = mFirebaseInstance.getReference("folders");
+
+        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-7447963107930464~6538892439");
+       // mAdView = (AdView) findViewById(R.id.adView);
+       // AdRequest adRequest = new AdRequest.Builder().build();
+       // mAdView.loadAd(adRequest);
+
 
         Data.APPLICATION_PACKAGE_NAME = this.getBaseContext().getPackageName();
         Data.dirFile = Environment.getExternalStorageDirectory()+"/"+Data.APPLICATION_PACKAGE_NAME+"/";
@@ -100,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         locationFragment = new LocationFragment();
         picturesFragment = new PicturesFragment();
         damageFragment = new DamageFragment();
+        fragment3 = new Fragment3();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -284,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         if(!file_name.getText().toString().equals(""))
                             Data.fileName = file_name.getText().toString();
+                        Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_LONG).show();
                     }
                 });
         builder.setCancelable(false);
@@ -409,33 +434,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected class myTask extends AsyncTask<String,String,String> {
-        SweetAlertDialog pDialog;
-        @Override
-        protected void onPreExecute() {
-            //display ProgressDialog
-            pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE)
-                  .setTitleText(getString(R.string.saving));
-            pDialog.show();
-        }
+
         @Override
         protected String doInBackground(String... params) {
 
             createPDF();
             Data.isFileSaved = true;
+            databaseReference.child(Data.fileName).setValue(Data.folder);
+            //Data.thirdParty;
             return "";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            pDialog.setTitleText(getString(R.string.saved))
-                    .setConfirmText("OK")
-                  .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
     public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
@@ -476,7 +487,8 @@ public class MainActivity extends AppCompatActivity {
                 case 0: return detailsFragment;
                 case 1: return locationFragment;
                 case 2: return picturesFragment;
-                case 3: return damageFragment;
+                case 3: return fragment3;
+                case 4: return damageFragment;
             }
             return null;
         }
@@ -484,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 4 total pages.
-            return 4;
+            return 5;
         }
 
         @Override
@@ -497,9 +509,30 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     return getString(R.string.section3);
                 case 3:
+                    return "Videos";
+                case 4:
                     return getString(R.string.section4);
             }
             return null;
         }
+    }
+
+
+    @Override
+    protected void onPause() {
+        //mAdView.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onRestart() {
+
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+       // mAdView.resume();
+        super.onResume();
     }
 }

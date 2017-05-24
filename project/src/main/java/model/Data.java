@@ -34,4 +34,6 @@ public class Data {
     public static List<Bitmap> image = new ArrayList<>();
 
     public static boolean isFileSaved = false;
+
+    public static Folder folder = new Folder();
 }
