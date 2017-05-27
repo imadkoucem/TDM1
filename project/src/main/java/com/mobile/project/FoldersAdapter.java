@@ -11,23 +11,25 @@ package com.mobile.project;
 
         import java.util.List;
 
+        import model.Folder;
 
-public class DocumentsAdapter extends BaseAdapter {
 
-    List<MyDocument> list;
+public class FoldersAdapter extends BaseAdapter {
 
-    public List<MyDocument> getList() {
+    List<Folder> list;
+
+    public List<Folder> getList() {
         return list;
     }
 
-    public void setList(List<MyDocument> list) {
+    public void setList(List<Folder> list) {
         this.list = list;
     }
 
     Context context;
     private  static LayoutInflater inflater= null;
 
-    public DocumentsAdapter( Context context,List<MyDocument> list) {
+    public FoldersAdapter(Context context, List<Folder> list) {
         this.list = list;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -65,17 +67,9 @@ public class DocumentsAdapter extends BaseAdapter {
         else holder = (Holder) convertView.getTag();
 
         if(holder!=null){
-            holder.nom.setText( list.get( position ).getName() );
-            holder.date.setText( list.get( position ).getDateCreation() );
+            holder.nom.setText( list.get( position ).getId() );
+            holder.date.setText( list.get( position ).getState() );
         }
-
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                ((HistoryActivity)context).longClick(position);
-                return false;
-            }
-        });
 
         return convertView;
     }

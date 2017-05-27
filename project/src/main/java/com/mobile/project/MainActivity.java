@@ -7,13 +7,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,53 +24,37 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.Chapter;
-import com.itextpdf.text.ChapterAutoNumber;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Header;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Section;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import model.Casualty;
 import model.Data;
-import model.Folder;
-import model.Insurance;
-import model.Police;
-import model.ThirdParty;
 import model.Vehicule;
 import model.Witness;
 
@@ -151,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
 
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Toast.makeText(this,refreshedToken,Toast.LENGTH_LONG).show();
+        Log.i("token", refreshedToken);
 
 
     }
@@ -191,15 +177,26 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     if(!file_name.getText().toString().equals("")){
                                         Data.fileName = file_name.getText().toString();
-                                        createPDF();
+                                        //createPDF();
                                         Data.isFileSaved = true;
+
+                                        uploadPic();
+
+                                        uploadVid();
+
+                                        Toast.makeText(MainActivity.this,"Uploading...",Toast.LENGTH_LONG).show();
+
                                     }
                                 }
                             });
                     builder.setCancelable(false);
                     builder.show();
                 }
-                else new myTask().execute();
+                else {
+                    uploadPic();
+
+                    uploadVid();
+                }
                 break;
 
             case R.id.action_visualize:
@@ -246,6 +243,23 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+    private void uploadPic() {
+        if (Data.pictureUri!=null){
+            Intent intent = new Intent(MainActivity.this, UploadImageService.class);
+            intent.putExtra("task","photo");
+            MainActivity.this.startService(intent);
+        }
+    }
+
+    private void uploadVid() {
+        if (Data.videoUri!=null){
+            Intent intent = new Intent(MainActivity.this, UploadImageService.class);
+            intent.putExtra("task","video");
+            MainActivity.this.startService(intent);
+        }
+    }
+
 
     private void reset() {
         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -433,18 +447,19 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    protected class myTask extends AsyncTask<String,String,String> {
+    /*protected class myTask extends AsyncTask<String,String,String> {
 
         @Override
         protected String doInBackground(String... params) {
 
-            createPDF();
+            //createPDF();
             Data.isFileSaved = true;
-            databaseReference.child(Data.fileName).setValue(Data.folder);
+            uploadData();
+            //upload();
             //Data.thirdParty;
             return "";
         }
-    }
+    }*/
 
 
     public static class PlaceholderFragment extends Fragment {

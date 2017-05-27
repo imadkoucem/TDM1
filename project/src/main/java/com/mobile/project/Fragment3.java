@@ -39,7 +39,7 @@ public class Fragment3 extends Fragment {
     VideoView mVideoView;
     AlertDialog.Builder builder;
 
-    StorageReference storageRef ;
+    //StorageReference storageRef ;
 
     public Fragment3() {
         // Required empty public constructor
@@ -52,7 +52,7 @@ public class Fragment3 extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_fragment3, container, false);
 
-        storageRef = FirebaseStorage.getInstance().getReference("videos");
+        //storageRef = FirebaseStorage.getInstance().getReference("videos");
 
         mVideoView = (VideoView)v.findViewById(R.id.mVideoView);
         builder = new AlertDialog.Builder(v.getContext());
@@ -97,25 +97,9 @@ public class Fragment3 extends Fragment {
             //final String videoPath = getRealVideoPathFromURI(vi);
             //Data.folder.setVideo(videoPath);
 
-            UploadTask uploadTask = storageRef.child(Data.fileName).putFile(intent.getData());
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    Toast.makeText(getActivity(),"failed to add the video",Toast.LENGTH_LONG).show();
-                    Log.e("imad",exception.toString());
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    Toast.makeText(getActivity(),"video added with succes",Toast.LENGTH_LONG).show();
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    Data.folder.setVideo(downloadUrl.toString());
-                    //p.setOldPhoto(downloadUrl.toString());
+            Data.videoUri = intent.getData();
 
-                }
-            });
+
             // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
             //Uri tempUri = getImageUri(getActivity(), photo);
             // CALL THIS METHOD TO GET THE ACTUAL PATH

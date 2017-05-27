@@ -38,7 +38,7 @@ public class PicturesFragment extends Fragment {
     ImageView imageView;
 
     // Create a storage reference from our app
-    StorageReference storageRef ;
+    //StorageReference storageRef ;
 
 
     public PicturesFragment() {   }
@@ -53,7 +53,7 @@ public class PicturesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        storageRef = FirebaseStorage.getInstance().getReference("photos");
+        //storageRef = FirebaseStorage.getInstance().getReference("photos");
 
         View view = inflater.inflate(R.layout.fragment_pictures, container, false);
         imageView = (ImageView)view.findViewById(R.id.picture);
@@ -85,25 +85,8 @@ public class PicturesFragment extends Fragment {
             imageView.setImageBitmap(photo);
             //Data.capture = photo;
 
-            UploadTask uploadTask = storageRef.child(Data.fileName).putFile(data.getData());
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    Toast.makeText(getActivity(),"failed to add the picture",Toast.LENGTH_LONG).show();
-                    Log.e("imad",exception.toString());
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    Toast.makeText(getActivity(),"Picture added with succes",Toast.LENGTH_LONG).show();
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    Data.folder.setPicture(downloadUrl.toString());
-                    //p.setOldPhoto(downloadUrl.toString());
+            Data.pictureUri = data.getData();
 
-                }
-            });
         }
     }
 

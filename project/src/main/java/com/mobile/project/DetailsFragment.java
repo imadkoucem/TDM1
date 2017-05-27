@@ -131,7 +131,7 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
                 .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Data.dateTime = tv1.getText().toString();
+                        Data.folder.setDate(tv1.getText().toString());
                         showSnackBar();
                     }
                 });
@@ -233,14 +233,17 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
     private void showDescription() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dview = inflater.inflate(R.layout.dialog_description, null);
-        final TextView tv = (TextView) dview.findViewById(  R.id.dialog_description_text );
+        final TextView tv1 = (TextView) dview.findViewById(  R.id.dialog_description_text );
+        final TextView tv2 = (TextView) dview.findViewById(  R.id.dialog_description_amount );
+        final TextView tv3 = (TextView) dview.findViewById(  R.id.dialog_description_type );
 
         builder.setView(dview)
                 // Add action buttons
                 .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Data.desciption = tv.getText().toString();
+                        Data.folder.setType(tv3.getText().toString());
+                        Data.folder.setAmount(Integer.parseInt(tv2.getText().toString()));
                         showSnackBar();
                     }
                 });

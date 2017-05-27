@@ -1,8 +1,10 @@
 package model;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -13,7 +15,7 @@ public class Data {
     public static String APPLICATION_PACKAGE_NAME ;
     public static String fileName = "";
 
-    public static String dateTime = "";
+    public static String dateTime ="";
     public static String location = "";
     public static String desciption = "";
 
@@ -36,4 +38,6 @@ public class Data {
     public static boolean isFileSaved = false;
 
     public static Folder folder = new Folder();
+    public static Uri pictureUri;
+    public static Uri videoUri;
 }
