@@ -3,6 +3,7 @@ package model;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,9 @@ public class Data {
     public static boolean isFileSaved = false;
 
     public static Folder folder = new Folder();
+
     public static Uri pictureUri;
     public static Uri videoUri;
+    public static InputStream pictureIS;
+    public static InputStream videoIS;
 }

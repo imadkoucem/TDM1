@@ -33,7 +33,7 @@ import model.Folder;
 public class HistoryActivity extends AppCompatActivity {
 
     ListView listView;
-    List<Folder> list = new ArrayList<>();
+    public static List<Folder> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +57,10 @@ public class HistoryActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("folders").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                list.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Folder i = d.getValue(Folder.class);
-                    //if (i.getState().equals("en traitment") || i.getState().equals("ouvert") )
+                    if (i.getState().equals("en traitment") || i.getState().equals("ouvert") )
                         list.add(i);
 
                 }
@@ -84,10 +85,21 @@ public class HistoryActivity extends AppCompatActivity {
                         switch (which){
                             case 0:
                                 //displaypdf(list.get(i).getPath());
+                                Intent intent = new Intent(HistoryActivity.this,DetailActivity.class);
+                                intent.putExtra("id",i);
+                                startActivity(intent);
                                 break;
 
                             case 1:
                                 //sendemail(list.get(i).getPath());
+                                Intent intent2 = new Intent(HistoryActivity.this,EditActivity.class);
+                                intent2.putExtra("id",i);
+                                startActivity(intent2);
+                                break;
+
+                            case 2:
+                                deleteItem(i);
+                                populateListFiles();
                                 break;
                         }
                     }

@@ -2,18 +2,24 @@ package com.mobile.project;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -33,10 +39,26 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -58,7 +80,7 @@ import model.Data;
 import model.Vehicule;
 import model.Witness;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -72,12 +94,26 @@ public class MainActivity extends AppCompatActivity {
     //AdView mAdView;
 
 
-    private DatabaseReference databaseReference ;
+    private DatabaseReference databaseReference,myRef ;
     private FirebaseDatabase mFirebaseInstance;
 
     //public static String dirFile;
     //public static String APPLICATION_PACKAGE_NAME ;
     //public static String fileName = "";
+
+    private static final String TAG = "MainActivity";
+    private LocationManager locationManager;
+    private Location location = new Location("location");
+    private Location nLocation;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    public static String id;
+    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build();
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +121,72 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseInstance.setPersistenceEnabled(true);
         databaseReference = mFirebaseInstance.getReference("folders");
+        myRef = mFirebaseInstance.getReference("users");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                double x = Double.parseDouble(dataSnapshot.child("user2").child("locationX").getValue(String.class));
+                double y = Double.parseDouble(dataSnapshot.child("user2").child("locationY").getValue(String.class));
+                // Toast.makeText(MainActivity.this, ""+y, Toast.LENGTH_SHORT).show();
+                location.setLatitude(y);
+                location.setLongitude(x);
+                nLocation = location;
+                useOldLocation();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                // Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        });
+
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location newLocation) {
+                // Called when a new location is found by the network location provider.
+//                float distance = newLocation.distanceTo(location);
+                nLocation = newLocation;
+                float distance = newLocation.distanceTo(nLocation);
+                Toast.makeText(MainActivity.this, "d: " + distance, Toast.LENGTH_SHORT).show();
+                useOldLocation();
+//                makeUseOfNewLocation(newLocation);
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
+        };
+
+        // Register the listener with the Location Manager to receive location updates
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 10, 100, locationListener);
 
         //MobileAds.initialize(getApplicationContext(), "ca-app-pub-7447963107930464~6538892439");
        // mAdView = (AdView) findViewById(R.id.adView);
@@ -177,12 +276,18 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     if(!file_name.getText().toString().equals("")){
                                         Data.fileName = file_name.getText().toString();
+                                        Data.folder.setVideo(file_name.getText().toString());
+                                        Data.folder.setPicture(file_name.getText().toString());
+                                        Data.folder.setId(file_name.getText().toString());
                                         //createPDF();
                                         Data.isFileSaved = true;
 
                                         uploadPic();
 
                                         uploadVid();
+
+                                        FirebaseDatabase.getInstance().getReference("folders")
+                                                .child(Data.folder.getId()).setValue(Data.folder);
 
                                         Toast.makeText(MainActivity.this,"Uploading...",Toast.LENGTH_LONG).show();
 
@@ -237,6 +342,14 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_frensh:
                 setLocale("fr");
+                break;
+
+            case R.id.action_signout:
+                signOut();
+                break;
+
+            case R.id.action_map:
+                startActivity(new Intent(MainActivity.this,MapsActivity.class));
                 break;
 
         }
@@ -322,7 +435,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         if(!file_name.getText().toString().equals(""))
                             Data.fileName = file_name.getText().toString();
-                        Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_LONG).show();
+                            Data.folder.setVideo(file_name.getText().toString());
+                            Data.folder.setPicture(file_name.getText().toString());
+                            Data.folder.setId(file_name.getText().toString());
+                            Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_LONG).show();
                     }
                 });
         builder.setCancelable(false);
@@ -447,6 +563,11 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
     /*protected class myTask extends AsyncTask<String,String,String> {
 
         @Override
@@ -549,5 +670,49 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
        // mAdView.resume();
         super.onResume();
+    }
+
+
+
+    public void useOldLocation(){
+        if (location.distanceTo(nLocation) > 200){
+            sendNewLocation(nLocation);
+        }
+    }
+
+    public void sendNewLocation(Location location) {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="https://us-central1-poised-receiver-164423.cloudfunctions.net/positionChanged?id="+1+"&x=" + location.getLongitude() +"&y=" + location.getLatitude();
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(MainActivity.this, "Position sent!", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "That didn't work!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        startActivity(new Intent(MainActivity.this,SignInActivity.class));
+                        finish();
+                        // [START_EXCLUDE]
+                        //updateUI(false);
+                        // [END_EXCLUDE]
+                    }
+                });
     }
 }

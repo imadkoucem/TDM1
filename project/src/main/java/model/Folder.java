@@ -1,18 +1,22 @@
 package model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by YMC on 24/05/2017.
  */
 
 public class Folder {
-    private int amount;
-    String date ;
-    String id;
-    ThirdParty opponent;
-    String state;
-    String type;
-    String picture;
-    String video;
+    private int amount = 0;
+    String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());;
+    String id = " ";
+    ThirdParty opponent = new ThirdParty(" "," "," "," ");
+    String state = "ouvert";
+    String type = "1";
+    String userId = "1";
+    String picture = " ";
+    String video = " ";
 
 
     public Folder() {
@@ -27,6 +31,14 @@ public class Folder {
         this.type = type;
         this.picture = picture;
         this.video = video;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public int getAmount() {

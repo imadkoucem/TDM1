@@ -96,7 +96,6 @@
     <string name="save">Save</string>
     <string name="saving">Saving...</string>
     <string name="saved">Saved !</string>
-    <string name="title_activity_maps">Map</string>
 
     <!-- MapsActivityCurrentPlace activity -->
     <string name="default_info_title">Default Location</string>
@@ -107,5 +106,22 @@
 
 
     <string name="banner_ad_unit_id">ca-app-pub-7447963107930464/8015625635</string>
+
+
+
+    <string name="subscribe_to_news">expert locations</string>
+    <string name="log_token">Signed out</string>
+    <string name="loading">Loading…</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="signed_in_fmt">Status</string>
+
+    <string name="msg_subscribed">Subscribed to news topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="google_title_text">Google Sign In</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
 
 </resources>

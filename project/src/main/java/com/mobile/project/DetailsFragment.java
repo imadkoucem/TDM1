@@ -154,6 +154,7 @@ public class DetailsFragment extends Fragment implements AdapterView.OnItemClick
                         ThirdParty t = new ThirdParty(tv1.getText().toString(),tv2.getText().toString(),
                                 tv3.getText().toString(),tv4.getText().toString());
                         Data.thirdParty = t;
+                        Data.folder.setOpponent(t);
                         showSnackBar();
                     }
                 });

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_third_party_title"
             android:background="@color/myblue"
-            android:textColor="#ffffff"
+            android:gravity="center"
+            android:focusable="false"
             android:padding="10dp"
-            android:gravity="center" />
+            android:text="Details"
+            android:textColor="#ffffff" />
 
 
         <LinearLayout
@@ -29,26 +31,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/colorPrimaryDark">
-                <EditText
-                    android:id="@+id/dialog_third_party_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/dialog_third_party_name"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="?attr/actionModeSplitBackground"
-                    android:textColorHint="@color/colorPrimaryDark" />
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/colorPrimaryDark">
                 <EditText
-                    android:id="@+id/dialog_third_party_adress"
+                    android:id="@+id/edit_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/dialog_third_party_adress"
+                    android:hint="Date"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="?attr/actionModeSplitBackground"
@@ -61,43 +49,126 @@
                 android:textColorHint="@color/colorPrimaryDark">
 
                 <EditText
-                    android:id="@+id/dialog_third_party_phone"
+                    android:id="@+id/edit_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/dialog_third_party_phone"
-                    android:inputType="phone"
+                    android:hint="Folder name"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="?attr/actionModeSplitBackground"
                     android:textColorHint="@color/colorPrimaryDark" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <Button
+                android:id="@+id/edit_btn_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/colorPrimaryDark">
+                android:layout_margin="5dp"
+                android:text="Take picture" />
 
-                <EditText
-                    android:id="@+id/dialog_third_party_licence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/dialog_third_party_licence"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="?attr/actionModeSplitBackground"
-                    android:textColorHint="@color/colorPrimaryDark" />
-            </android.support.design.widget.TextInputLayout>
-
-            <CheckBox
-                android:id="@+id/dialog_third_party_checkBox"
+            <Button
+                android:id="@+id/edit_btn_vid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dialog_third_party_text" />
+                android:layout_margin="5dp"
+                android:text="Take video" />
 
 
         </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/edit_tp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/myblue"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Third party"
+                android:textColor="#ffffff" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimaryDark">
+
+                <EditText
+                    android:id="@+id/edit_tp_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimaryDark">
+
+                <EditText
+                    android:id="@+id/edit_tp_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Address"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimaryDark">
+
+                <EditText
+                    android:id="@+id/edit_tp_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone"
+                    android:maxLines="1"
+                    android:inputType="phone"
+                    android:selectAllOnFocus="false"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimaryDark">
+
+                <EditText
+                    android:id="@+id/edit_tp_licence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Licence number"
+                    android:maxLines="1"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="?attr/actionModeSplitBackground"
+                    android:textColorHint="@color/colorPrimaryDark" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/edit_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit" />
+
+
     </LinearLayout>
 
-</ScrollView>
 
+</ScrollView>

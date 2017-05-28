@@ -50,7 +50,7 @@
                 android:id="@+id/action_history"
                 android:orderInCategory="100"
                 android:icon="@drawable/history"
-                android:title="History"/>
+                android:title="Folders"/>
             <item
                 android:id="@+id/action_language"
                 android:orderInCategory="100"
@@ -71,10 +71,21 @@
             </item>
 
             <item
+                android:id="@+id/action_map"
+                android:orderInCategory="100"
+                android:title="Find experts"/>
+
+            <item
                 android:id="@+id/action_about"
                 android:orderInCategory="100"
                 android:icon="@drawable/about_us_icon"
                 android:title="About us"/>
+
+            <item
+                android:id="@+id/action_signout"
+                android:orderInCategory="100"
+                android:icon="@drawable/history"
+                android:title="Sign out"/>
         </menu>
     </item>
 </menu>

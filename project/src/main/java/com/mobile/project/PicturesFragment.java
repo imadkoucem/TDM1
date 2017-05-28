@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -86,6 +87,12 @@ public class PicturesFragment extends Fragment {
             //Data.capture = photo;
 
             Data.pictureUri = data.getData();
+
+            try {
+                Data.pictureIS = getActivity().getContentResolver().openInputStream(data.getData());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
         }
     }

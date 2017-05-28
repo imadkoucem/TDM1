@@ -1,4 +1,4 @@
-package services;
+package com.mobile.project;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

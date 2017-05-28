@@ -22,6 +22,10 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import model.Data;
 
 
@@ -75,6 +79,7 @@ public class UploadImageService extends IntentService {
             notificationManager2.notify(notificationID2, noti2);
             uploadVideo();
         }
+        //uploadData();
 
     }
 
@@ -97,15 +102,17 @@ public class UploadImageService extends IntentService {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     //Toast.makeText(MainActivity.this,"video added with succes",Toast.LENGTH_LONG).show();
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    Data.folder.setVideo(downloadUrl.toString());
+                    //Data.folder.setVideo(downloadUrl.toString());
                     //p.setOldPhoto(downloadUrl.toString());
+
 
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()*8) / taskSnapshot.getTotalByteCount()*8;
+                    double bytes_video = inputToSize(Data.videoIS);
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()*8) / bytes_video;
                     Log.i("imad","getBytesTransferred() is  " +taskSnapshot.getBytesTransferred() + " bytes");
                     int currentprogress = (int) progress+1;
                     //progressBar.setProgress(currentprogress);
@@ -161,14 +168,15 @@ public class UploadImageService extends IntentService {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     //Toast.makeText(MainActivity.this,"Picture added with succes",Toast.LENGTH_LONG).show();
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    Data.folder.setPicture(downloadUrl.toString());
+                    //Data.folder.setPicture(downloadUrl.toString());
                     //p.setOldPhoto(downloadUrl.toString());
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()*8) / taskSnapshot.getTotalByteCount()*8;
+                    double bytes_picture = inputToSize(Data.videoIS);
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()*8) / bytes_picture;
                     Log.i("imad","getBytesTransferred() is  " +taskSnapshot.getBytesTransferred() + " bytes");
                     int currentprogress = (int) progress+1;
                     //progressBar.setProgress(currentprogress);
@@ -191,5 +199,18 @@ public class UploadImageService extends IntentService {
                 }
             });
         }
+    }
+
+
+    private int inputToSize(InputStream oldInput)  {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        int b;
+        try {
+            while ((b = oldInput.read()) != -1)
+                os.write(b);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return os.toByteArray().length*8;
     }
 }

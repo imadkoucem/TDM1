@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 
 import model.Data;
 
@@ -98,6 +99,12 @@ public class Fragment3 extends Fragment {
             //Data.folder.setVideo(videoPath);
 
             Data.videoUri = intent.getData();
+
+            try {
+                Data.videoIS = getActivity().getContentResolver().openInputStream(intent.getData());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
 
             // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
